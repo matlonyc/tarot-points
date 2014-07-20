@@ -1,0 +1,11 @@
+<h1>Rounds</h1>
+<table>
+  <% @rounds.each do |round| %>
+    <tr>
+      <td><%= round.lead.name %></td>
+      <td><%= round.contract %></td>
+      <td><%= round.partner.name %></td>
+      <td><%= round.diff %></td>
+    </tr>
+  <% end %>
+</table>

@@ -1,0 +1,39 @@
+<h1>New round</h1>
+
+<%= form_for :round, url: game_rounds_path do |f| %>
+
+<% if @round.errors.any? %>
+  <div id="errorExplanation">
+    <h2><%= pluralize(@round.errors.count, "error") %> prohibited this round from being saved:</h2>
+    <ul>
+      <% @round.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<table>
+  <tr>
+    <td><%= f.label :lead %></td>
+    <td><%= f.collection_select :lead, @players, :name, :name %></td>
+  </tr>
+  <tr>
+    <td><%= f.label :contract %></td>
+    <td><%= f.select :contract, options_for_select($contracts) %></td>
+  </tr>
+  <% if @players.size > 3 %>
+  <tr>
+    <td><%= f.label :partner %></td>
+    <td><%= f.collection_select :partner, @players, :name, :name, include_blank: :true %></td>
+  </tr>
+  <% end %>
+  <tr>
+    <td><%= f.label :diff %></td>
+    <td><%= f.text_field :diff %></td>
+  </tr>
+</table>
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>

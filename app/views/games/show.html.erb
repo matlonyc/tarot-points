@@ -1,0 +1,65 @@
+<p>
+This is a tarot game taking place in <%= @game.location %> on <%= @game.date %>.
+</p>
+
+<p>
+Today there are <%= pluralize(@game.number_of_players, "player") %>.
+<% if @game.number_of_players < 3 %>
+  Time to add players, otherwise what's the point? You need at least three. <%= link_to 'Click here to add players.', new_game_player_path(@game) %><br>
+<% end %>
+</p>
+
+<h1>Scores</h1>
+
+<% if @game.number_of_players > 0 %>
+
+  <table border="1" cellpadding="3" cellspacing="0">
+    <tr>
+      <td>Player name</td>
+      <% round_number = 0 %>
+      <% @game.players.first.player_scores.each do |score| %>
+        <td>Round #<%= round_number %><br>
+        <% round_number += 1 %>
+      <% end %>
+    </tr>
+    <% @game.players.each do |player| %>
+      <tr>
+        <td><%= player.name %></td>
+        <% player.player_scores.each do | score | %>
+          <td><%= score.score %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+
+  <%= link_to 'New round', new_game_round_path(@game) %><br>
+  <%= link_to 'Delete last round', game_path(@game, delete_round: round_number-1) unless round_number == 0 %><br>
+
+<% else %>
+  <p>No players registered in this game</p>
+<% end %>
+
+<%= link_to 'Back to list of games', games_path %>
+
+<h1>Rounds</h1>
+<table border="1" cellpadding="3" cellspacing="0">
+  <tr>
+    <td>Round</td>
+    <td>Points</td>
+    <td>Lead player</td>
+    <td>Contract</td>
+    <td>Partner if any</td>
+  </tr>
+  <% round_number = 1 %>
+  <% @game.rounds.each do |round| %>
+    <tr>
+      <td>#<%= round_number %></td>
+      <td><%= round.diff %></td>
+      <td><%= round.lead %></td>
+      <td><%= round.contract %></td>
+      <td><%= round.partner %></td>
+    </tr>
+    <% round_number += 1 %>
+  <% end %>
+</table>
+

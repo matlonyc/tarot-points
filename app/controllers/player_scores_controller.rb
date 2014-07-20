@@ -1,0 +1,3 @@
+class PlayerScoresController < ApplicationController
+
+end
